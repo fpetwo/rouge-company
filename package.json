@@ -1,0 +1,22 @@
+{
+  "name": "d2r-summoner-calculator",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Static, SEO-first DPS calculator for the Diablo II: Resurrected summoner necromancer.",
+  "type": "module",
+  "scripts": {
+    "build": "tsx src/build/build.ts",
+    "test": "node --import tsx --test tests/*.test.ts",
+    "check": "tsc --noEmit",
+    "preview": "tsx src/build/serve.ts"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.2",
+    "marked": "^18.0.10",
+    "tsx": "^4.23.12",
+    "typescript": "^6.0.3"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

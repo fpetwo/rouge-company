@@ -95,6 +95,50 @@ Diablo is a fixed second target with his Hell values, so you can always compare 
 - The table below splits the total into skeleton warriors, skeletal mages, Iron Golem, revives, Thorns and, if switched on, the Rogue's arrows.
 - **Per minion values** shows the details for one skeleton (damage bonus, damage per hit, attack rating, chance to hit, attack frames) and one mage (missile damage per element).
 
+## How attack rating, defense and attack speed change the damage
+
+Every minion's damage per second is **damage per hit × chance to hit × attacks per second**. Auras like Concentration and Might only raise the first part. Attack rating, monster defense and attack speed decide the other two, and they multiply.
+
+### Chance to hit
+
+The game's formula, for every minion against every monster:
+
+**Chance to hit = 2 × attacker level / (attacker level + defender level) × AR / (AR + defense)**, limited to 5–95%.
+
+- **Attacker level** is your character level at summoning for skeletons, mages and golems (revives use their own level, at most yours). Against a level 82 Doom Knight a level 84 Necro gets a factor of 1.01, against level 94 Diablo only 0.94.
+- **Attack rating (AR)** comes from Raise Skeleton, Skeleton Mastery and your character level, then Fanaticism and Heart of Wolverine add a percentage on top.
+- **Defense** of the monster is lowered by Inner Sight (a flat amount) and Conviction (a percentage).
+
+Skeletons at 45/45 against a Doom Knight (defense 1,837), from the calculator:
+
+| Setup | AR | Monster defense | Chance to hit |
+|---|---|---|---|
+| No auras | 4,726 | 1,837 | 73% |
+| Fanaticism 15 + Heart of Wolverine 5 | 12,429 | 1,837 | 88% |
+| No auras, Inner Sight 31 | 4,726 | 122 | 95% (cap) |
+| Fanaticism 15 + HoW 5 + Inner Sight 31 | 12,429 | 122 | 95% (cap) |
+
+**What this means:** once you hit 95%, more AR or less defense adds nothing. Inner Sight alone gets skeletons to the cap against most Hell monsters, so with a Rogue the AR from Fanaticism is mostly wasted, and against high-defense targets without Inner Sight (Act 2 merc) it matters a lot. Against Diablo the level penalty keeps skeletons below the cap: 80% without Inner Sight, 91% with it.
+
+### Attack speed
+
+Minions attack in frames (25 frames = 1 second). A skeleton warrior needs 18 frames per swing without speed bonuses, and after every swing the AI waits another 15 frames before the next one. Fanaticism lowers the swing, not the pause:
+
+| Fanaticism | Attack speed bonus | Frames per swing | With 15-frame pause | Attacks per second |
+|---|---|---|---|---|
+| none | 0 | 18 | 33 | 0.76 |
+| 1 (Mania) | +14 | 16 | 31 | 0.81 |
+| 9 (Beast) | +29 | 14 | 29 | 0.86 |
+| 15 (Faith) | +33 | 13 | 28 | 0.89 |
+
+**What this means:** because of the pause, even maximum Fanaticism only gives about +18% attacks. Fanaticism is still one of the strongest auras, because it also adds damage and AR, but its speed part is smaller than the tooltip suggests. Speed works in steps (breakpoints): a bonus between two steps changes nothing.
+
+The Iron Golem works the same way, with his own frame table: his weapon's speed and the item's attack speed count too. The line under the golem in section 3 shows his frames and hit chance.
+
+### Defense of your minions
+
+The same hit formula runs the other way for enemies attacking your army. Skeleton and mage defense comes from Raise Skeleton, Raise Skeletal Mage, Skeleton Mastery and your character level at summoning. It only changes how often enemies land a hit, which in the calculator matters for Thorns: the flat part triggers on every swing, the percentage part only on hits. The enemy pack table shows the result as "Hits your minions".
+
 ## Saving, sharing and resetting
 
 Your setup is stored in the page address after every change. **Copy link to this setup** copies it; anyone who opens the link sees exactly your inputs. **Reset** returns to the default setup (Max Auras with 15 melee and 10 ranged revives). Nothing is saved on a server and the site sets no cookies.

@@ -53,6 +53,7 @@ export function renderRegions(s: State): Record<string, string> {
     revives: reviveTable(r),
     pack: packTable(r),
     golem: golemInfo(s, r),
+    merc: r.merc === 'act2' ? '<p class="note">Merc: Act 2 Offensive merc (from the gear check). His own attacks are not counted, only his Might aura and the auras of his items.</p>' : '',
     dock: `<a href="#h-result" class="dock-in"><span class="dock-l">Army DPS</span><span><span class="dock-k">pack</span> <b>${fmt(r.totalPack)}</b></span><span><span class="dock-k">Diablo</span> <b>${fmt(r.totalDiablo)}</b></span></a>`
   };
 }
@@ -261,9 +262,10 @@ export function renderCalculator(s: State): string {
         </div>
         <p class="note">Only damage and attack rating change the DPS. Life and defense keep the golem alive but are not part of the result.</p>
       </details>
-      <table class="form-table rogue-row"><tbody>
+      <table class="form-table rogue-row" id="rogue-row"${calculate(s).merc === 'rogue' ? '' : ' hidden'}><tbody>
         <tr><th scope="row"><label class="chk">${chk('rogueOn', s)}<span><span class="aura-n">Rogue arrows</span><span class="hint">reference with max gear: vs. pack / vs. Diablo</span></span></label></th><td>${num('rogueS', s, 'min="0" aria-label="Rogue DPS vs. pack"')}</td><td>${num('rogueD', s, 'min="0" aria-label="Rogue DPS vs. Diablo"')}</td></tr>
       </tbody></table>
+      ${region('merc', R.merc)}
     </section>
 
     <section class="card" aria-labelledby="h-revives">

@@ -1,6 +1,8 @@
 // Browser entry: hydrates the pre-rendered calculator. No framework, ~small bundle.
 import { applyVariant, BUILD_VARIANTS, decodeState, DEFAULT_STATE, encodeState, golemItemPatch, matchVariant, type State } from '../core/state.ts';
 import { renderRegions } from './view.ts';
+import { calculate } from '../core/calc.ts';
+const calcMerc = (s: State) => calculate(s).merc;
 
 const root = document.getElementById('calculator');
 if (root) init(root);
@@ -39,6 +41,8 @@ function init(root: HTMLElement) {
     dis('rogueS', !s.rogueOn); dis('rogueD', !s.rogueOn);
     dis('golemLvl', s.golemType === 'none'); dis('gmLvl', s.golemType === 'none');
     for (const k of ['gRw', 'gBase', 'gEd', 'gIas', 'gDs', 'gAr', 'gElem']) dis(k, s.golemType !== 'iron');
+    const rogueRow = root.querySelector<HTMLElement>('#rogue-row');
+    if (rogueRow) rogueRow.hidden = calcMerc(s) !== 'rogue';
     dis('revMeleeN', !s.revMelee); dis('revRangedN', !s.revRanged);
     dis('enMeleeN', !s.enMelee); dis('enRangedN', !s.enRanged);
   };

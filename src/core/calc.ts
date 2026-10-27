@@ -1,5 +1,6 @@
 import { DIABLO, GOLEM_ITEMS, GOLEMS, fireGolemFire, monlvlAr, monsterById, type Monster } from './data.ts';
 import { GOLEM_BASES } from './golem-bases.ts';
+import { findFit } from './fit.ts';
 import * as F from './formulas.ts';
 import type { State } from './state.ts';
 
@@ -21,6 +22,7 @@ export interface Result {
   skeleton: { percent: number; damage: number; ar: number; frames: number; speed: number; hitPack: number; hitDiablo: number; dpsPack: number; dpsDiablo: number };
   mage: { fire: number; light: number; cold: number; dpsPack: number; dpsDiablo: number };
   golem: GolemResult | null;
+  merc: 'rogue' | 'act2';
 }
 
 export interface GolemResult {
@@ -138,7 +140,9 @@ export function calculate(s: State): Result {
     }
     thDia = (DIABLO.dmg * p * diabloHits * DIABLO.aps + f * DIABLO.aps) * F.physicalFactor(DIABLO.res[0], s.ampOn);
   }
-  const rogue = s.rogueOn ? { pack: s.rogueS, diablo: s.rogueD } : { pack: 0, diablo: 0 };
+  // The Rogue's arrows only count when the merc is a Rogue (an Act 2 merc's own attacks are not modelled).
+  const merc = findFit(s)?.merc ?? (s.isOn ? 'rogue' : 'act2');
+  const rogue = s.rogueOn && merc === 'rogue' ? { pack: s.rogueS, diablo: s.rogueD } : { pack: 0, diablo: 0 };
   const has = packN > 0 ? 1 : 0;
 
   const rows: Row[] = [
@@ -161,6 +165,7 @@ export function calculate(s: State): Result {
     revives: [ru, rru].filter((x): x is RevUnit => x !== null),
     skeleton: { percent, damage, ar, frames, speed, hitPack: avgHit(s.clvl, ar, targets), hitDiablo: avgHit(s.clvl, ar, diablo), dpsPack: skPack, dpsDiablo: skDia },
     mage: { ...E, dpsPack: maPack, dpsDiablo: maDia },
-    golem: golemRes
+    golem: golemRes,
+    merc
   };
 }

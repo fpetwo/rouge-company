@@ -64,9 +64,9 @@ const VARIANT_BASE: Partial<State> = {
 export const BUILD_VARIANTS: BuildVariant[] = [
   {
     id: 'low-budget', name: 'Low budget',
-    summary: 'Affordable Rogue setup: Mist and Bramble with low aura rolls, Mania in the Iron Golem, skills 40/40. No Ber or Jah needed (Beast mode needs one Ber).',
-    gear: ['Rogue: Mist (Concentration 9), Bramble (Thorns 15), Inner Sight 30', 'Iron Golem: Mania (Fanaticism 1) on a Berserker Axe – or Beast (Fanaticism 9) in Beast mode', 'Summon after Battle Command from Call to Arms (+1 to all skills)', 'Necro: Wisp Projector (Heart of Wolverine), Amplify Damage'],
-    patch: { ...VARIANT_BASE, ...MANIA, rsS: 41, rsP: 40, smS: 41, rsmS: 40, rsmP: 39, conL: 9, fanaL: 1, thornsL: 15, isL: 30 },
+    summary: 'A real level 88 character without Call to Arms: Mist and Bramble with low aura rolls, Mania in the Iron Golem, Raise Skeleton 44. No Ber or Jah needed (Beast mode needs one Ber).',
+    gear: ['Rogue: Mist (Concentration 9), Bramble (Thorns 15), Inner Sight 31', 'Iron Golem: Mania (Fanaticism 1) on a Berserker Axe – or Beast (Fanaticism 9) in Beast mode', 'No Call to Arms: summoning level = level during play', 'Necro: Enigma, Marrowwalk, Arachnid Mesh, Wisp Projector (Heart of Wolverine), Amplify Damage, Revive 24'],
+    patch: { ...VARIANT_BASE, ...MANIA, clvl: 88, rsS: 44, rsP: 44, smS: 46, rsmS: 43, rsmP: 43, golemLvl: 22, gmLvl: 41, revS: 24, revP: 24, conL: 9, fanaL: 1, thornsL: 15, isL: 31 },
     beast: true
   },
   {

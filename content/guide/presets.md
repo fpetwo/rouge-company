@@ -28,11 +28,11 @@ The two Rogue presets put **Mania** (Fanaticism level 1) on the Iron Golem, beca
 
 Remember that the Iron Golem's item is gone when the golem dies. A Beast golem is a bigger risk than a Mania golem.
 
-All presets summon after Battle Command from Call to Arms, so the summoning levels are one above the levels during play. The Iron Golem's own damage is calculated from his weapon: Mania and Beast sit on a Berserker Axe, Pride on a Cryptic Axe, which as a two-handed weapon adds no damage to the golem.
+All presets except Low budget summon after Battle Command from Call to Arms, so the summoning levels are one above the levels during play. The Iron Golem's own damage is calculated from his weapon: Mania and Beast sit on a Berserker Axe, Pride on a Cryptic Axe, which as a two-handed weapon adds no damage to the golem.
 
 ## Which one should you aim for?
 
-- **Low budget** needs no Jah or Ber: Mist, Bramble and a Mania golem. Rerolling Mist and Bramble for better aura levels turns it into Rogue Company without changing any item.
+- **Low budget** needs no Jah or Ber: Mist, Bramble and a Mania golem. It is a real level 88 character without Call to Arms. Rerolling Mist and Bramble for better aura levels and adding Call to Arms turns it into Rogue Company.
 - **Upgrading Fanaticism** from level 1 (Mania) to level 9 (Beast) or 15 (Faith) is one of the largest steps in the table, because it adds damage, attack rating and attack speed at once.
 - **Desert Storm** trades the Rogue's Inner Sight for the Act 2 merc's own Might aura. Against high-defense targets Inner Sight is worth more than the table suggests.
 - **Max Auras** stacks four damage auras, but it costs two skeletons and a mage (you lose Arm of King Leoric's +skills after summoning) and you have to swap back every time you resummon. The preset also sets Revive to level 25.

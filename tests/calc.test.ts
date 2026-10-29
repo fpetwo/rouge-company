@@ -16,14 +16,15 @@ const near = (actual: number, expected: number, tol = 0.02) =>
 const docLevels = (sum: number, rsm: number): Partial<State> => ({ rsS: sum, smS: sum, rsmS: rsm, golemType: 'none', rogueOn: false, revFana: false });
 
 test('presets reproduce the reference model totals (without golem)', () => {
-  near(calculate(variant('low-budget', docLevels(40, 39))).totalPack, 29400 - 1150);
+  // Low budget now mirrors a real character; the spreadsheet row used level 84, 40/39 during play and Inner Sight 30.
+  near(calculate(variant('low-budget', { ...docLevels(40, 39), clvl: 84, rsP: 40, rsmP: 39, isL: 30 })).totalPack, 29400 - 1150);
   near(calculate(variant('rogue-company', docLevels(45, 44), true)).totalPack, 50800 - 2100);
   near(calculate(variant('desert-storm', docLevels(45, 44))).totalPack, 63900 - 2900);
   near(calculate(variant('max-auras', { ...docLevels(45, 44), revMeleeN: 25 })).totalPack, 86500 - 1850);
 });
 
 test('presets summon one level higher than they play (Battle Command)', () => {
-  for (const id of ['low-budget', 'rogue-company', 'desert-storm']) {
+  for (const id of ['rogue-company', 'desert-storm']) {
     const v = variant(id);
     assert.equal(v.rsS - v.rsP, 1, id);
     assert.equal(v.rsmS - v.rsmP, 1, id);
@@ -107,4 +108,8 @@ test('enemy hit chance follows attack rating against minion defense', () => {
   // Higher Skeleton Mastery at summoning means fewer hits taken.
   const tougher = calculate({ ...DEFAULT_STATE, smS: 60 }).pack.find(p => p.monster.id === 'doomkn')!;
   assert.ok(tougher.hitsMinions < dk.hitsMinions);
+});
+
+test('default setup is the Low budget preset', () => {
+  assert.deepEqual(applyVariant(DEFAULT_STATE, 'low-budget'), DEFAULT_STATE);
 });

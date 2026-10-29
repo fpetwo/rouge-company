@@ -45,7 +45,7 @@ The presets are four complete, wearable setups. Clicking one sets skill levels, 
 
 ## 1 · Skills
 
-- **On summoning (pre-buff)** is your skill level at the moment you cast, with every +skill item and Battle Command you have then. Skeleton damage, attack rating and the mages' missile level are fixed at that moment. The presets assume Battle Command from Call to Arms, so they summon exactly one level above "during play" (Max Auras additionally loses Arm of King Leoric's bonus after the swap).
+- **On summoning (pre-buff)** is your skill level at the moment you cast, with every +skill item and Battle Command you have then. Skeleton damage, attack rating and the mages' missile level are fixed at that moment. All presets except Low budget assume Battle Command from Call to Arms, so they summon exactly one level above "during play" (Max Auras additionally loses Arm of King Leoric's bonus after the swap).
 - **During play** is your level after a gear swap. It only decides how many minions you can keep. If it is lower, the extra minions disappear.
 - If you never swap gear, enter the same value in both columns.
 - **Skeleton Mastery** and **character level** have no "during play" value. They only change minion stats, and those are kept from the moment of summoning.
@@ -141,7 +141,7 @@ The same hit formula runs the other way for enemies attacking your army. Skeleto
 
 ## Saving, sharing and resetting
 
-Your setup is stored in the page address after every change. **Copy link to this setup** copies it; anyone who opens the link sees exactly your inputs. **Reset** returns to the default setup: a level 88 character without Call to Arms, Mist (Concentration 9) and Bramble (Thorns 15) on the Rogue, Mania in the Iron Golem and 24 revives (14 melee, 10 ranged). Nothing is saved on a server and the site sets no cookies.
+Your setup is stored in the page address after every change. **Copy link to this setup** copies it; anyone who opens the link sees exactly your inputs. **Reset** returns to the default setup: the Low budget preset with 24 revives (14 melee, 10 ranged). Nothing is saved on a server and the site sets no cookies.
 
 ## Glossary
 

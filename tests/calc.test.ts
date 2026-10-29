@@ -12,8 +12,8 @@ const near = (actual: number, expected: number, tol = 0.02) =>
   assert.ok(Math.abs(actual - expected) / expected <= tol, `${Math.round(actual)} not within ${tol * 100}% of ${expected}`);
 
 // The reference spreadsheet used flat golem values and no Battle Command bonus while summoning, so these
-// checks compare the army without the golem at the spreadsheet's skill levels (doc total minus its golem value).
-const docLevels = (sum: number, rsm: number): Partial<State> => ({ rsS: sum, smS: sum, rsmS: rsm, golemType: 'none' });
+// checks compare the army without the golem and Rogue arrows at the spreadsheet's skill levels (doc total minus its golem value).
+const docLevels = (sum: number, rsm: number): Partial<State> => ({ rsS: sum, smS: sum, rsmS: rsm, golemType: 'none', rogueOn: false, revFana: false });
 
 test('presets reproduce the reference model totals (without golem)', () => {
   near(calculate(variant('low-budget', docLevels(40, 39))).totalPack, 29400 - 1150);

@@ -72,7 +72,7 @@ The orange box checks whether your ticked auras fit on real gear at the levels y
 - **Golem item** (folded, Iron Golem only): base weapon and runeword. Picking a runeword fills in its best rolls; you can change every value. Two-handed weapons give no weapon damage.
 - **Golem synergies** (folded): your hard skill points in the other golems. Only Fire Golem (+6% damage) and Clay Golem (+20 AR) change the damage.
 - The line under the golem shows its damage per hit, attack speed, hit chance and, for the Clay Golem, its slow.
-- **Rogue arrows** stay a reference value you can type in; they are off by default so that the result shows the Necromancer's army only.
+- **Rogue: Cold Arrow** is a reference value you can type in. It is on by default whenever the merc is a Rogue, because Cold Arrow is her default attack. Uncheck it to see the Necromancer's army only.
 
 ## 4 · Revives
 

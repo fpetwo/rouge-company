@@ -151,7 +151,7 @@ export function calculate(s: State): Result {
     { label: golemRes?.name ?? 'Golem', pack: has * golemPack, diablo: golemDia },
     { label: `Revives (${Math.round(revivesWanted * scale)})`, pack: has * revPack, diablo: revDia },
     { label: `Thorns (${meleeN} melee attackers)`, pack: thPack, diablo: thDia },
-    { label: 'Rogue arrows', pack: has * rogue.pack, diablo: rogue.diablo }
+    { label: 'Rogue Cold Arrow', pack: has * rogue.pack, diablo: rogue.diablo }
   ];
   return {
     rows,

@@ -31,9 +31,9 @@ export const DEFAULT_STATE: State = {
   golemType: 'iron', golemLvl: 21, gmLvl: 23,
   synClay: 1, synBlood: 1, synIron: 1, synFire: 0,
   gRw: 'pride', gBase: '7pa', gEd: 0, gIas: 0, gDs: 20, gAr: 300, gElem: 165,
-  rogueOn: false, rogueS: 3700, rogueD: 2100,
+  rogueOn: true, rogueS: 3700, rogueD: 2100,
   revMelee: 'doomkn', revMeleeN: 15, revRanged: 'flesharc', revRangedN: 10,
-  revMeleeAps: 0.5, revRangedAps: 0.6, revFana: false,
+  revMeleeAps: 0.5, revRangedAps: 0.6, revFana: true,
   enMelee: 'doomkn', enMeleeN: 7, enRanged: 'flesharc', enRangedN: 3, enAps: 0.5
 };
 
@@ -55,7 +55,7 @@ const VARIANT_BASE: Partial<State> = {
   clvl: 84, rsS: 46, rsP: 45, smS: 46, rsmS: 45, rsmP: 44, golemType: 'iron', golemLvl: 19, gmLvl: 21,
   mightOn: false, mightL: 17, conOn: true, conL: 20, fanaOn: true, fanaL: 15,
   convOn: false, convL: 12, howOn: true, howL: 5, thornsOn: true, thornsL: 21, isOn: true, isL: 31,
-  ampOn: true, rogueOn: false
+  ampOn: true, rogueOn: true
 };
 
 export const BUILD_VARIANTS: BuildVariant[] = [

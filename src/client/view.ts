@@ -263,7 +263,7 @@ export function renderCalculator(s: State): string {
         <p class="note">Only damage and attack rating change the DPS. Life and defense keep the golem alive but are not part of the result.</p>
       </details>
       <table class="form-table rogue-row" id="rogue-row"${calculate(s).merc === 'rogue' ? '' : ' hidden'}><tbody>
-        <tr><th scope="row"><label class="chk">${chk('rogueOn', s)}<span><span class="aura-n">Rogue arrows</span><span class="hint">reference with max gear: vs. pack / vs. Diablo</span></span></label></th><td>${num('rogueS', s, 'min="0" aria-label="Rogue DPS vs. pack"')}</td><td>${num('rogueD', s, 'min="0" aria-label="Rogue DPS vs. Diablo"')}</td></tr>
+        <tr><th scope="row"><label class="chk">${chk('rogueOn', s)}<span><span class="aura-n">Rogue: Cold Arrow</span><span class="hint">default skill, reference with max gear: vs. pack / vs. Diablo</span></span></label></th><td>${num('rogueS', s, 'min="0" aria-label="Rogue DPS vs. pack"')}</td><td>${num('rogueD', s, 'min="0" aria-label="Rogue DPS vs. Diablo"')}</td></tr>
       </tbody></table>
       ${region('merc', R.merc)}
     </section>

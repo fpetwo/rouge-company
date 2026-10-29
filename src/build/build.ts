@@ -241,6 +241,7 @@ ${page.body}
 <footer class="site-foot"><div class="wrap">
 <p>${site.name} · data: ${site.dataVersion} · last updated ${page.updated}</p>
 <p>Free, non-commercial fan project. Not affiliated with or endorsed by Blizzard Entertainment. Diablo is a trademark of Blizzard Entertainment, Inc.</p>
+<p>Built with the help of AI (Claude by Anthropic): code, formulas and texts were generated with AI and checked against game data, but may still contain errors.</p>
 <p><a href="/help/">Help</a> · <a href="/guide/how-it-works/">How the calculator works</a> · <a href="/items/">Item database</a> · <a href="/legal/privacy/">Privacy</a></p>
 </div></footer>
 ${page.script && scripts[page.script] ? `<script type="module" src="${scripts[page.script]}"></script>` : ''}

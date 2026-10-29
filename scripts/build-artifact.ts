@@ -48,6 +48,7 @@ ${html}
 </main>
 <footer class="site-foot"><div class="wrap">
 <p>Free, non-commercial fan project. Not affiliated with or endorsed by Blizzard Entertainment. Diablo is a trademark of Blizzard Entertainment, Inc.</p>
+<p>Built with the help of AI (Claude by Anthropic): code, formulas and texts were generated with AI and checked against game data, but may still contain errors.</p>
 </div></footer>
 <script>${js}</script>
 `;

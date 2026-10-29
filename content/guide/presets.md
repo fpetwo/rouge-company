@@ -35,6 +35,6 @@ All presets summon after Battle Command from Call to Arms, so the summoning leve
 - **Low budget** needs no Jah or Ber: Mist, Bramble and a Mania golem. Rerolling Mist and Bramble for better aura levels turns it into Rogue Company without changing any item.
 - **Upgrading Fanaticism** from level 1 (Mania) to level 9 (Beast) or 15 (Faith) is one of the largest steps in the table, because it adds damage, attack rating and attack speed at once.
 - **Desert Storm** trades the Rogue's Inner Sight for the Act 2 merc's own Might aura. Against high-defense targets Inner Sight is worth more than the table suggests.
-- **Max Auras** stacks four damage auras, but it costs two skeletons and a mage (you lose Arm of King Leoric's +skills after summoning) and you have to swap back every time you resummon. The calculator default adds 25 revives on top.
+- **Max Auras** stacks four damage auras, but it costs two skeletons and a mage (you lose Arm of King Leoric's +skills after summoning) and you have to swap back every time you resummon. The preset also sets Revive to level 25.
 
 All numbers in the table exclude revives and the Rogue's own arrows. Add both in the calculator to see your full army.

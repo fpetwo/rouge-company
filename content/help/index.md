@@ -141,7 +141,7 @@ The same hit formula runs the other way for enemies attacking your army. Skeleto
 
 ## Saving, sharing and resetting
 
-Your setup is stored in the page address after every change. **Copy link to this setup** copies it; anyone who opens the link sees exactly your inputs. **Reset** returns to the default setup (Max Auras with 15 melee and 10 ranged revives). Nothing is saved on a server and the site sets no cookies.
+Your setup is stored in the page address after every change. **Copy link to this setup** copies it; anyone who opens the link sees exactly your inputs. **Reset** returns to the default setup: a level 88 character without Call to Arms, Mist (Concentration 9) and Bramble (Thorns 15) on the Rogue, Mania in the Iron Golem and 24 revives (14 melee, 10 ranged). Nothing is saved on a server and the site sets no cookies.
 
 ## Glossary
 

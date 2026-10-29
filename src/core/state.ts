@@ -23,16 +23,19 @@ export interface State {
 
 export const AURA_KEYS: AuraKey[] = ['might', 'con', 'fana', 'conv', 'how', 'thorns', 'is'];
 
+// Default = a real level 88 character without Call to Arms (summoning level = level during play):
+// Mist (Concentration 9) and Bramble (Thorns 15) on the Rogue, Inner Sight 31, Mania on a Berserker Axe in the
+// Iron Golem, Wisp Projector (Heart of Wolverine 5), Amplify Damage, Revive 24.
 export const DEFAULT_STATE: State = {
-  clvl: 84, rsS: 46, rsP: 40, smS: 46, rsmS: 45, rsmP: 40, revS: 28, revP: 25,
-  mightOn: true, mightL: 17, conOn: true, conL: 20, fanaOn: true, fanaL: 15,
-  convOn: false, convL: 12, howOn: true, howL: 5, thornsOn: true, thornsL: 21, isOn: true, isL: 31,
+  clvl: 88, rsS: 44, rsP: 44, smS: 46, rsmS: 43, rsmP: 43, revS: 24, revP: 24,
+  mightOn: false, mightL: 17, conOn: true, conL: 9, fanaOn: true, fanaL: 1,
+  convOn: false, convL: 12, howOn: true, howL: 5, thornsOn: true, thornsL: 15, isOn: true, isL: 31,
   ampOn: true,
-  golemType: 'iron', golemLvl: 21, gmLvl: 23,
+  golemType: 'iron', golemLvl: 22, gmLvl: 41,
   synClay: 1, synBlood: 1, synIron: 1, synFire: 0,
-  gRw: 'pride', gBase: '7pa', gEd: 0, gIas: 0, gDs: 20, gAr: 300, gElem: 165,
+  gRw: 'mania', gBase: '7wa', gEd: 200, gIas: 30, gDs: 0, gAr: 0, gElem: 0,
   rogueOn: true, rogueS: 3700, rogueD: 2100,
-  revMelee: 'doomkn', revMeleeN: 15, revRanged: 'flesharc', revRangedN: 10,
+  revMelee: 'doomkn', revMeleeN: 14, revRanged: 'flesharc', revRangedN: 10,
   revMeleeAps: 0.5, revRangedAps: 0.6, revFana: true,
   enMelee: 'doomkn', enMeleeN: 7, enRanged: 'flesharc', enRangedN: 3, enAps: 0.5
 };
@@ -55,7 +58,7 @@ const VARIANT_BASE: Partial<State> = {
   clvl: 84, rsS: 46, rsP: 45, smS: 46, rsmS: 45, rsmP: 44, golemType: 'iron', golemLvl: 19, gmLvl: 21,
   mightOn: false, mightL: 17, conOn: true, conL: 20, fanaOn: true, fanaL: 15,
   convOn: false, convL: 12, howOn: true, howL: 5, thornsOn: true, thornsL: 21, isOn: true, isL: 31,
-  ampOn: true, rogueOn: true
+  ampOn: true, rogueOn: true, revS: 28, revP: 25
 };
 
 export const BUILD_VARIANTS: BuildVariant[] = [

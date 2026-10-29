@@ -55,7 +55,7 @@ const MANIA: Partial<State> = { gRw: 'mania', gBase: '7wa', gEd: 200, gIas: 30, 
 const BEAST: Partial<State> = { gRw: 'beast', gBase: '7wa', gEd: 270, gIas: 40, gDs: 0, gAr: 0, gElem: 0 };
 const PRIDE: Partial<State> = { gRw: 'pride', gBase: '7pa', gEd: 0, gIas: 0, gDs: 20, gAr: 300, gElem: 165 };
 const VARIANT_BASE: Partial<State> = {
-  clvl: 84, rsS: 46, rsP: 45, smS: 46, rsmS: 45, rsmP: 44, golemType: 'iron', golemLvl: 19, gmLvl: 21,
+  clvl: 88, rsS: 46, rsP: 45, smS: 46, rsmS: 45, rsmP: 44, golemType: 'iron', golemLvl: 19, gmLvl: 21,
   mightOn: false, mightL: 17, conOn: true, conL: 20, fanaOn: true, fanaL: 15,
   convOn: false, convL: 12, howOn: true, howL: 5, thornsOn: true, thornsL: 21, isOn: true, isL: 31,
   ampOn: true, rogueOn: true, revS: 28, revP: 25
@@ -66,7 +66,7 @@ export const BUILD_VARIANTS: BuildVariant[] = [
     id: 'low-budget', name: 'Low budget',
     summary: 'A real level 88 character without Call to Arms: Mist and Bramble with low aura rolls, Mania in the Iron Golem, Raise Skeleton 44. No Ber or Jah needed (Beast mode needs one Ber).',
     gear: ['Rogue: Mist (Concentration 9), Bramble (Thorns 15), Inner Sight 31', 'Iron Golem: Mania (Fanaticism 1) on a Berserker Axe – or Beast (Fanaticism 9) in Beast mode', 'No Call to Arms: summoning level = level during play', 'Necro: Enigma, Marrowwalk, Arachnid Mesh, Wisp Projector (Heart of Wolverine), Amplify Damage, Revive 24'],
-    patch: { ...VARIANT_BASE, ...MANIA, clvl: 88, rsS: 44, rsP: 44, smS: 46, rsmS: 43, rsmP: 43, golemLvl: 22, gmLvl: 41, revS: 24, revP: 24, conL: 9, fanaL: 1, thornsL: 15, isL: 31 },
+    patch: { ...VARIANT_BASE, ...MANIA, rsS: 44, rsP: 44, smS: 46, rsmS: 43, rsmP: 43, golemLvl: 22, gmLvl: 41, revS: 24, revP: 24, conL: 9, fanaL: 1, thornsL: 15, isL: 31 },
     beast: true
   },
   {

@@ -16,11 +16,12 @@ const near = (actual: number, expected: number, tol = 0.02) =>
 const docLevels = (sum: number, rsm: number): Partial<State> => ({ rsS: sum, smS: sum, rsmS: rsm, golemType: 'none', rogueOn: false, revFana: false });
 
 test('presets reproduce the reference model totals (without golem)', () => {
-  // Low budget now mirrors a real character; the spreadsheet row used level 84, 40/39 during play and Inner Sight 30.
+  // The spreadsheet used character level 84 for every row (presets now default to 88), so it is pinned here.
+  // Low budget now mirrors a real character; its spreadsheet row used 40/39 during play and Inner Sight 30.
   near(calculate(variant('low-budget', { ...docLevels(40, 39), clvl: 84, rsP: 40, rsmP: 39, isL: 30 })).totalPack, 29400 - 1150);
-  near(calculate(variant('rogue-company', docLevels(45, 44), true)).totalPack, 50800 - 2100);
-  near(calculate(variant('desert-storm', docLevels(45, 44))).totalPack, 63900 - 2900);
-  near(calculate(variant('max-auras', { ...docLevels(45, 44), revMeleeN: 25 })).totalPack, 86500 - 1850);
+  near(calculate(variant('rogue-company', { ...docLevels(45, 44), clvl: 84 }, true)).totalPack, 50800 - 2100);
+  near(calculate(variant('desert-storm', { ...docLevels(45, 44), clvl: 84 })).totalPack, 63900 - 2900);
+  near(calculate(variant('max-auras', { ...docLevels(45, 44), clvl: 84, revMeleeN: 25 })).totalPack, 86500 - 1850);
 });
 
 test('presets summon one level higher than they play (Battle Command)', () => {
@@ -31,6 +32,11 @@ test('presets summon one level higher than they play (Battle Command)', () => {
   }
   const m = variant('max-auras');
   assert.equal(m.rsS, 46); assert.equal(m.rsP, 40);   // Arm of King Leoric swap (−5) plus Battle Command (+1)
+});
+
+test('every preset keeps the default character level 88', () => {
+  for (const id of ['low-budget', 'rogue-company', 'desert-storm', 'max-auras']) assert.equal(variant(id).clvl, DEFAULT_STATE.clvl, id);
+  assert.equal(DEFAULT_STATE.clvl, 88);
 });
 
 test('Beast mode only applies to the Rogue presets', () => {

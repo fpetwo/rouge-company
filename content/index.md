@@ -27,7 +27,7 @@ faq:
 
 ## How to use the calculator
 
-1. **Pick a preset** as a starting point: Low budget, Rogue Company, Desert Storm or Max Auras. Each one is a complete, wearable gear setup. Low budget and Rogue Company also offer Beast mode for the Iron Golem.
+1. **Pick a preset** as a starting point: Low budget, Rogue Company, Desert Storm or Max Auras. Each one is a complete, wearable gear setup. Low budget, Rogue Company and Desert Storm also offer Beast mode for the Iron Golem.
 2. **Enter your skill levels** including all +skills. Use the "during play" column if you summon with one set of gear and fight with another, for example the Last Wish swap.
 3. **Tick the auras** you have and set their levels. The aura panel tells you immediately whether the combination fits into your gear slots.
 4. **Choose revives and an enemy pack** from real Hell monsters. The army's damage is shared across the pack, and Thorns counts every melee attacker.

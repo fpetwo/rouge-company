@@ -24,7 +24,7 @@ The gap between the model monster and the real pack comes from physical resistan
 
 ## Beast mode
 
-The two Rogue presets put **Mania** (Fanaticism level 1) on the Iron Golem, because it only costs low runes. **Beast mode** replaces it with **Beast** (Fanaticism level 9), which needs a Ber rune. The calculator offers the switch only for Low budget and Rogue Company: Desert Storm already uses Beast, and Max Auras gets Fanaticism 15 from Faith on the Rogue, so its golem carries Pride instead.
+Low budget, Rogue Company and Desert Storm put **Mania** (Fanaticism level 1) on the Iron Golem, because it only costs low runes. **Beast mode** replaces it with **Beast** (Fanaticism level 9), which needs a Ber rune. The calculator offers the switch for these three presets. Max Auras gets Fanaticism 15 from Faith on the Rogue, so its golem carries Pride instead.
 
 Remember that the Iron Golem's item is gone when the golem dies. A Beast golem is a bigger risk than a Mania golem.
 

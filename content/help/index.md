@@ -9,7 +9,7 @@ faq:
   - q: Why does the calculator say my auras are not possible?
     a: Every aura needs a carrier slot. The check tries all ways to put the checked auras on the Necromancer, the merc and the Iron Golem at the levels you entered. If no single set of items gives all of them, uncheck an aura, pick a level that an item can actually roll, or load a preset.
   - q: What does Beast mode do?
-    a: It puts Beast (Fanaticism level 9) on the Iron Golem instead of Mania (Fanaticism level 1). It is only available for the Low budget and Rogue Company presets, because Desert Storm already uses Beast and Max Auras gets Fanaticism from Faith on the Rogue.
+    a: It puts Beast (Fanaticism level 9) on the Iron Golem instead of Mania (Fanaticism level 1). It is available for Low budget, Rogue Company and Desert Storm, but not for Max Auras, which gets Fanaticism from Faith on the Rogue and puts Pride on the golem.
   - q: Why is the "during play" skill level lower than "on summoning"?
     a: Many summoners summon with all their +skill gear and then swap to a damage or aura item. Minions keep the stats they were summoned with, but the maximum number follows your current level, so the extra ones disappear after the swap.
   - q: How do I save or share a setup?
@@ -38,10 +38,10 @@ The presets are four complete, wearable setups. Clicking one sets skill levels, 
 |---|---|---|---|
 | Low budget | Rogue: Mist (Concentration 9), Bramble (Thorns 15) | Mania | No Ber or Jah needed |
 | Rogue Company | Rogue: Mist (Concentration 12), Bramble (Thorns 21) | Mania | Same items, best aura rolls |
-| Desert Storm | Act 2 Offensive: Might 19, Pride, Bramble | Beast | Might instead of Inner Sight |
+| Desert Storm | Act 2 Offensive: Might 19, Pride, Bramble | Mania | Might instead of Inner Sight |
 | Max Auras | Rogue: Faith, Bramble | Pride | Last Wish swap, four damage auras, 25 revives |
 
-**Beast mode** swaps the Iron Golem's Mania (Fanaticism 1) for Beast (Fanaticism 9). The switch is only active while Low budget or Rogue Company is selected. As soon as you change an input, the preset is no longer highlighted, because your setup is now your own. The [presets guide](/guide/presets/) lists the full gear and the damage of each one.
+**Beast mode** swaps the Iron Golem's Mania (Fanaticism 1) for Beast (Fanaticism 9). The switch is active for every preset except Max Auras. As soon as you change an input, the preset is no longer highlighted, because your setup is now your own. The [presets guide](/guide/presets/) lists the full gear and the damage of each one.
 
 ## 1 · Skills
 

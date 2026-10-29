@@ -39,7 +39,7 @@ The calculator assumes every minion is inside every aura. In practice Fanaticism
 | Setup | Necromancer | Merc | Iron Golem |
 |---|---|---|---|
 | Four damage auras | Last Wish (after summoning) | Rogue: Faith + Bramble | Pride |
-| Act 2 Might | – | Act 2: own Might, Pride, Bramble | Beast |
+| Act 2 Might | – | Act 2: own Might, Pride, Bramble | Beast or Mania |
 | Rogue classic | – | Rogue: Mist + Bramble | Beast or Mania |
 
 Conviction (Infinity) only fits if a polearm slot is free, which usually costs either Pride or the Last Wish setup. For physical skeletons Conviction only helps through lower defense; its resistance reduction helps mages and elemental revives.

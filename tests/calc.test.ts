@@ -20,7 +20,7 @@ test('presets reproduce the reference model totals (without golem)', () => {
   // Low budget now mirrors a real character; its spreadsheet row used 40/39 during play and Inner Sight 30.
   near(calculate(variant('low-budget', { ...docLevels(40, 39), clvl: 84, rsP: 40, rsmP: 39, isL: 30 })).totalPack, 29400 - 1150);
   near(calculate(variant('rogue-company', { ...docLevels(45, 44), clvl: 84 }, true)).totalPack, 50800 - 2100);
-  near(calculate(variant('desert-storm', { ...docLevels(45, 44), clvl: 84 })).totalPack, 63900 - 2900);
+  near(calculate(variant('desert-storm', { ...docLevels(45, 44), clvl: 84 }, true)).totalPack, 63900 - 2900);
   near(calculate(variant('max-auras', { ...docLevels(45, 44), clvl: 84, revMeleeN: 25 })).totalPack, 86500 - 1850);
 });
 
@@ -39,13 +39,16 @@ test('every preset keeps the default character level 88', () => {
   assert.equal(DEFAULT_STATE.clvl, 88);
 });
 
-test('Beast mode only applies to the Rogue presets', () => {
+test('Beast mode applies to every preset except Max Auras', () => {
   assert.equal(variant('low-budget').fanaL, 1);
   assert.equal(variant('low-budget', {}, true).fanaL, 9);
   assert.equal(variant('low-budget', {}, true).gRw, 'beast');
   assert.ok(calculate(variant('rogue-company', {}, true)).totalPack > calculate(variant('rogue-company')).totalPack);
   assert.deepEqual(variant('max-auras', {}, true), variant('max-auras'));
-  assert.deepEqual(variant('desert-storm', {}, true), variant('desert-storm'));
+  assert.equal(variant('desert-storm').gRw, 'mania');
+  assert.equal(variant('desert-storm').fanaL, 1);
+  assert.equal(variant('desert-storm', {}, true).gRw, 'beast');
+  assert.ok(calculate(variant('desert-storm', {}, true)).totalPack > calculate(variant('desert-storm')).totalPack);
 });
 
 test('golem damage follows the game data', () => {

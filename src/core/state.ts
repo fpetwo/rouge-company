@@ -78,9 +78,10 @@ export const BUILD_VARIANTS: BuildVariant[] = [
   },
   {
     id: 'desert-storm', name: 'Desert Storm',
-    summary: 'Act 2 Offensive merc at maximum levels: his own Might aura plus Pride and Bramble, Beast in the Iron Golem. No Inner Sight.',
-    gear: ['Act 2 Offensive merc: Might 19 (own aura), Pride (Concentration 20), Bramble (Thorns 21)', 'Iron Golem: Beast (Fanaticism 9) on a Berserker Axe', 'Summon after Battle Command from Call to Arms (+1 to all skills)', 'Necro: Wisp Projector (Heart of Wolverine), Amplify Damage'],
-    patch: { ...VARIANT_BASE, ...BEAST, mightOn: true, mightL: 19, fanaL: 9, isOn: false }
+    summary: 'Act 2 Offensive merc at maximum levels: his own Might aura plus Pride and Bramble, Mania in the Iron Golem. No Inner Sight.',
+    gear: ['Act 2 Offensive merc: Might 19 (own aura), Pride (Concentration 20), Bramble (Thorns 21)', 'Iron Golem: Mania (Fanaticism 1) on a Berserker Axe – or Beast (Fanaticism 9) in Beast mode', 'Summon after Battle Command from Call to Arms (+1 to all skills)', 'Necro: Wisp Projector (Heart of Wolverine), Amplify Damage'],
+    patch: { ...VARIANT_BASE, ...MANIA, mightOn: true, mightL: 19, fanaL: 1, isOn: false },
+    beast: true
   },
   {
     id: 'max-auras', name: 'Max Auras',

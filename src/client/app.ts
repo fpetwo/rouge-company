@@ -81,7 +81,7 @@ function init(root: HTMLElement) {
     const hint = root.querySelector<HTMLElement>('#beast-hint');
     if (hint) hint.textContent = s.golemType !== 'iron'
       ? 'Needs the Iron Golem: Beast and Mania are items the golem wears. Pick Iron Golem in section 3 or load a preset.'
-      : 'Iron Golem wears Beast (Fanaticism 9) instead of Mania. Only for Low budget and Rogue Company.';
+      : 'Iron Golem wears Beast (Fanaticism 9) instead of Mania. Not for Max Auras.';
     if (!beast) return;
     const supported = Boolean(BUILD_VARIANTS.find(x => x.id === activeId)?.beast);
     if (m && supported) beastPref = m.beast;

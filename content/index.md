@@ -27,7 +27,7 @@ faq:
 
 ## How to use the calculator
 
-1. **Pick a preset** as a starting point: Low budget, Rogue Company, Desert Storm or Max Auras. Each one is a complete, wearable gear setup. Low budget, Rogue Company and Desert Storm also offer Beast mode for the Iron Golem.
+1. **Pick a preset** as a starting point: Low budget, Rogue Company, Desert Storm, Max Auras or Twin Blades. Each one is a complete, wearable gear setup. Low budget, Rogue Company and Desert Storm also offer Beast mode for the Iron Golem.
 2. **Enter your skill levels** including all +skills. Use the "during play" column if you summon with one set of gear and fight with another, for example the Last Wish swap.
 3. **Tick the auras** you have and set their levels. The aura panel tells you immediately whether the combination fits into your gear slots.
 4. **Choose revives and an enemy pack** from real Hell monsters. The army's damage is shared across the pack, and Thorns counts every melee attacker.
@@ -35,7 +35,7 @@ faq:
 
 ## What the numbers mean
 
-The result is the combined damage per second of skeleton warriors, skeletal mages, the Iron Golem, revives and Thorns. It assumes every minion stands inside every aura radius and keeps attacking. In real fights the army spreads out and spends time walking, so treat the numbers as a fair comparison between setups, not as a time-to-kill prediction. The [model guide](/guide/how-it-works/) lists every formula and assumption, the [aura guide](/guide/auras/) shows which item can go on which carrier, and the [presets guide](/guide/presets/) compares the four setups side by side.
+The result is the combined damage per second of skeleton warriors, skeletal mages, the Iron Golem, revives, Thorns and your merc. It assumes every minion stands inside every aura radius and keeps attacking. In real fights the army spreads out and spends time walking, so treat the numbers as a fair comparison between setups, not as a time-to-kill prediction. The [model guide](/guide/how-it-works/) lists every formula and assumption, the [aura guide](/guide/auras/) shows which item can go on which carrier, and the [presets guide](/guide/presets/) compares the five setups side by side.
 
 ## Frequently asked questions
 

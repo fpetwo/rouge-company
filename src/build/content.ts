@@ -52,9 +52,9 @@ export function variantTable(): string {
     const r = calculate(applyVariant(real, v.id, { beast }));
     const link = `/#${encodeState(applyVariant(DEFAULT_STATE, v.id, { beast }))}`;
     const name = beast ? `${esc(v.name)} + Beast mode` : esc(v.name);
-    return `<tr><th scope="row"><a href="${link}">${name}</a></th><td>${fmt(m.totalPack)}</td><td>${fmt(r.totalPack)}</td><td>${fmt(r.totalDiablo)}</td></tr>`;
+    return `<tr><th scope="row"><a href="${link}">${name}</a></th><td>${fmt(m.totalPack)}</td><td>${fmt(r.totalPack)}</td><td>${fmt(r.totalDiablo)}</td><td>${fmt(r.mercRes.dpsPack)} / ${fmt(r.mercRes.dpsDiablo)}</td></tr>`;
   })).join('');
-  return `<div class="scroll"><table class="data num-right"><caption>Army DPS without revives. "Model monster": one target without resists. "Real pack": 7 Doom Knights + 3 Flesh Archers.</caption><thead><tr><th scope="col">Preset</th><th scope="col">vs. model monster</th><th scope="col">vs. real pack</th><th scope="col">vs. Diablo</th></tr></thead><tbody>${rows}</tbody></table></div>`;
+  return `<div class="scroll"><table class="data num-right"><caption>Army DPS including the merc, without revives. "Model monster": one target without resists. "Real pack": 7 Doom Knights + 3 Flesh Archers. Last column: the merc's share against the pack and against Diablo.</caption><thead><tr><th scope="col">Preset</th><th scope="col">vs. model monster</th><th scope="col">vs. real pack</th><th scope="col">vs. Diablo</th><th scope="col">of which merc</th></tr></thead><tbody>${rows}</tbody></table></div>`;
 }
 
 export function variantDetails(): string {

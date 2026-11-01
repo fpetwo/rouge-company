@@ -18,7 +18,9 @@ h1: Auras for a summoner army
 - **Desert merc (Act 2)**: polearms and spears only, plus armor and helm. The Offensive merc brings his own Might aura, which grows with +skills on his gear.
 - **Iron Golem**: built from one metal item. It takes over the item's aura, but no bows or crossbows. The item is lost when the golem dies.
 
-You hire either the Rogue or the Act 2 merc, never both, and you have one Iron Golem.
+- **Iron Wolf (Act 3)** and **Barbarian (Act 5)**: swords only. They bring no aura of their own but can carry Last Wish or Mania; the dual-wielding Act 5 merc can carry two.
+
+You hire one merc, and you have one Iron Golem.
 
 ## Aura sources
 

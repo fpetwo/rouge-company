@@ -1,6 +1,7 @@
 import { DIABLO, GOLEM_ITEMS, GOLEMS, fireGolemFire, monlvlAr, monsterById, type Monster } from './data.ts';
 import { GOLEM_BASES } from './golem-bases.ts';
-import { findFit } from './fit.ts';
+import { findFit, mercWeapons } from './fit.ts';
+import { calcMerc, type MercResult } from './merc.ts';
 import * as F from './formulas.ts';
 import type { State } from './state.ts';
 
@@ -22,7 +23,8 @@ export interface Result {
   skeleton: { percent: number; damage: number; ar: number; frames: number; speed: number; hitPack: number; hitDiablo: number; dpsPack: number; dpsDiablo: number };
   mage: { fire: number; light: number; cold: number; dpsPack: number; dpsDiablo: number };
   golem: GolemResult | null;
-  merc: 'rogue' | 'act2';
+  merc: State['mType'];
+  mercRes: MercResult;
 }
 
 export interface GolemResult {
@@ -140,9 +142,21 @@ export function calculate(s: State): Result {
     }
     thDia = (DIABLO.dmg * p * diabloHits * DIABLO.aps + f * DIABLO.aps) * F.physicalFactor(DIABLO.res[0], s.ampOn);
   }
-  // The Rogue's arrows only count when the merc is a Rogue (an Act 2 merc's own attacks are not modelled).
-  const merc = findFit(s)?.merc ?? (s.isOn ? 'rogue' : 'act2');
-  const rogue = s.rogueOn && merc === 'rogue' ? { pack: s.rogueS, diablo: s.rogueD } : { pack: 0, diablo: 0 };
+  // The merc: his own weapon attacks and skills, boosted by the party auras, against each target's resists.
+  // Fanaticism counts at its full (self) value when the merc carries the Fanaticism item himself.
+  const merc = s.mType;
+  const fanaSelf = mercWeapons(s).some(x => x === 'Faith' || x === 'Mania') && lvl('fana') > 0;
+  const mercAuras = {
+    dmgPct: F.conDamage(lvl('con')) + F.mightDamage(lvl('might')) + (fanaSelf ? F.fanaSelfDamage(lvl('fana')) : F.fanaDamage(lvl('fana'))) + F.howDamage(lvl('how')),
+    arPct, speed
+  };
+  const mercRes = calcMerc({
+    type: s.mType, sub: s.mSub, lvl: s.mLvl, skills: s.mSkills, atkSkills: s.mAtk, str: s.mStr, dex: s.mDex,
+    base: s.mBase, ed: s.mEd, minAdd: s.mMin, maxAdd: s.mMax, flat: s.mFlat, ias: s.mIas, eth: s.mEth,
+    base2: s.mBase2, ed2: s.mEd2, minAdd2: s.mMin2, maxAdd2: s.mMax2, flat2: s.mFlat2, eth2: s.mEth2,
+    iasOther: s.mIasO, fire: s.mFire, cold: s.mCold, ltng: s.mLtng, arPct: s.mAr, ds: s.mDs, fcr: s.mFcr, mode: s.mMode, dualSum: s.mDualSum
+  }, mercAuras, convRes, s.ampOn, effDef, targets, diablo, F.physicalFactor, F.elementalFactor, F.hitChance);
+  const mercRow = s.mercOn ? { pack: mercRes.dpsPack, diablo: mercRes.dpsDiablo } : { pack: 0, diablo: 0 };
   const has = packN > 0 ? 1 : 0;
 
   const rows: Row[] = [
@@ -151,7 +165,7 @@ export function calculate(s: State): Result {
     { label: golemRes?.name ?? 'Golem', pack: has * golemPack, diablo: golemDia },
     { label: `Revives (${Math.round(revivesWanted * scale)})`, pack: has * revPack, diablo: revDia },
     { label: `Thorns (${meleeN} melee attackers)`, pack: thPack, diablo: thDia },
-    { label: 'Rogue Cold Arrow', pack: has * rogue.pack, diablo: rogue.diablo }
+    { label: `Merc: ${mercRes.row.name}`, pack: has * mercRow.pack, diablo: mercRow.diablo }
   ];
   return {
     rows,
@@ -166,6 +180,7 @@ export function calculate(s: State): Result {
     skeleton: { percent, damage, ar, frames, speed, hitPack: avgHit(s.clvl, ar, targets), hitDiablo: avgHit(s.clvl, ar, diablo), dpsPack: skPack, dpsDiablo: skDia },
     mage: { ...E, dpsPack: maPack, dpsDiablo: maDia },
     golem: golemRes,
-    merc
+    merc,
+    mercRes
   };
 }

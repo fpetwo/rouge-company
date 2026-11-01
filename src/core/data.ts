@@ -2,7 +2,7 @@
 // their tables from these objects, so text and calculator can never disagree.
 
 export type AuraKey = 'might' | 'con' | 'fana' | 'conv' | 'how' | 'thorns' | 'is';
-export type Carrier = 'N' | 'R' | 'A2' | 'G';
+export type Carrier = 'N' | 'R' | 'A2' | 'A3' | 'A5' | 'G';
 
 export interface AuraSource {
   name: string;          // item or skill name
@@ -25,6 +25,8 @@ export const CARRIER_NAMES: Record<Carrier, string> = {
   N: 'Necromancer',
   R: 'Rogue (Act 1 merc)',
   A2: 'Desert merc (Act 2)',
+  A3: 'Iron Wolf (Act 3)',
+  A5: 'Barbarian merc (Act 5)',
   G: 'Iron Golem'
 };
 
@@ -32,7 +34,7 @@ export const AURAS: AuraInfo[] = [
   {
     key: 'might', name: 'Might', summary: '+% physical damage for all allies in range',
     sources: [
-      { name: 'Last Wish', base: 'sword / axe / hammer', min: 17, max: 17, carriers: { N: '1H', G: true }, slot: 'weapon' },
+      { name: 'Last Wish', base: 'sword / axe / hammer', min: 17, max: 17, carriers: { N: '1H', A3: true, A5: true, G: true }, slot: 'weapon' },
       { name: 'Act 2 Offensive merc', base: 'own aura, rises with +skills on merc gear', min: 1, max: 40, pick: 19, carriers: { A2: true }, slot: 'own' }
     ]
   },
@@ -48,7 +50,7 @@ export const AURAS: AuraInfo[] = [
     sources: [
       { name: 'Faith', base: 'bow / crossbow', min: 12, max: 15, carriers: { N: '2H', R: true }, slot: 'weapon' },
       { name: 'Beast', base: 'axe / hammer / scepter', min: 9, max: 9, carriers: { N: true, G: true }, slot: 'weapon' },
-      { name: 'Mania', base: 'any weapon', min: 1, max: 1, carriers: { N: true, R: true, A2: true, G: true }, slot: 'weapon' }
+      { name: 'Mania', base: 'any weapon', min: 1, max: 1, carriers: { N: true, R: true, A2: true, A3: true, A5: true, G: true }, slot: 'weapon' }
     ]
   },
   {
@@ -66,7 +68,7 @@ export const AURAS: AuraInfo[] = [
   {
     key: 'thorns', name: 'Thorns', summary: 'reflects melee damage back to attackers',
     sources: [
-      { name: 'Bramble', base: 'body armor', min: 15, max: 21, carriers: { N: true, R: true, A2: true, G: true }, slot: 'armor' },
+      { name: 'Bramble', base: 'body armor', min: 15, max: 21, carriers: { N: true, R: true, A2: true, A3: true, A5: true, G: true }, slot: 'armor' },
       { name: 'Edge', base: 'bow / crossbow', min: 15, max: 15, carriers: { N: '2H', R: true }, slot: 'weapon' }
     ]
   },

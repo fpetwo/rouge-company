@@ -15,7 +15,7 @@ faq:
   - q: How do I save or share a setup?
     a: Every change is written into the page address. Bookmark it, or press "Copy link to this setup" and send the link. Opening it restores every input. Nothing is stored on a server.
   - q: Are the numbers exact?
-    a: They are a consistent model, not a combat log. All minions are assumed to stand in every aura and attack all the time, and a few values (enemy swing rate, golem and Rogue damage) are reference values you can change. Use the results to compare setups.
+    a: They are a consistent model, not a combat log. All minions are assumed to stand in every aura and attack all the time, and a few values (enemy and revive swing rates) are assumptions you can change. Use the results to compare setups.
 ---
 
 # Help
@@ -32,7 +32,7 @@ faq:
 
 ## Presets and Beast mode
 
-The presets are four complete, wearable setups. Clicking one sets skill levels, auras and the Iron Golem; your revive and enemy choices stay as they are, so you can compare presets against the same monsters.
+The presets are five complete, wearable setups. Clicking one sets skill levels, auras and the Iron Golem; your revive and enemy choices stay as they are, so you can compare presets against the same monsters.
 
 | Preset | Merc | Iron Golem | Idea |
 |---|---|---|---|
@@ -40,6 +40,7 @@ The presets are four complete, wearable setups. Clicking one sets skill levels, 
 | Rogue Company | Rogue: Mist (Concentration 12), Bramble (Thorns 21) | Mania | Same items, best aura rolls |
 | Desert Storm | Act 2 Offensive: Might 19, Pride, Bramble | Mania | Might instead of Inner Sight |
 | Max Auras | Rogue: Faith, Bramble | Pride | Last Wish swap, four damage auras, 25 revives |
+| Twin Blades | Act 5 dual wield: Last Wish + Grief, Bramble | Pride | No swap, strong merc |
 
 **Beast mode** swaps the Iron Golem's Mania (Fanaticism 1) for Beast (Fanaticism 9). The switch is active for every preset except Max Auras. As soon as you change an input, the preset is no longer highlighted, because your setup is now your own. The [presets guide](/guide/presets/) lists the full gear and the damage of each one.
 
@@ -55,7 +56,7 @@ The presets are four complete, wearable setups. Clicking one sets skill levels, 
 
 Tick an aura to turn it on and enter its level from the item tooltip. Under each aura you see where it can come from and who can carry that item:
 
-- <span class="chip ok">N</span> Necromancer · <span class="chip ok">R</span> Rogue (bows only) · <span class="chip ok">A2</span> Act 2 merc (polearms and spears only) · <span class="chip ok">G</span> Iron Golem (metal items, no bows)
+- <span class="chip ok">N</span> Necromancer · <span class="chip ok">R</span> Rogue (bows only) · <span class="chip ok">A3</span> Iron Wolf, <span class="chip ok">A5</span> Barbarian merc (swords only) · <span class="chip ok">A2</span> Act 2 merc (polearms and spears only) · <span class="chip ok">G</span> Iron Golem (metal items, no bows)
 - A <span class="chip no">struck</span> chip means that carrier cannot use the item. **2H** marks two-handed weapons, which cost the Necromancer his shield.
 
 The orange box checks whether your ticked auras fit on real gear at the levels you entered. It names one valid set of items, or tells you that no combination works. Two rules matter here:
@@ -65,22 +66,32 @@ The orange box checks whether your ticked auras fit on real gear at the levels y
 
 **Amplify Damage** is your curse: it removes 100% physical resistance and is the biggest single boost for skeletons. Inner Sight is the Rogue's own skill, so it needs a Rogue.
 
-## 3 · Golem and Rogue
+## 3 · Golem
 
 - **Golem:** pick Iron, Clay, Blood or Fire Golem, or none. Only the Iron Golem wears an item and adds its aura. If you switch to another golem and an aura has no carrier left, the gear check in section 2 says so and offers one-click fixes, for example "Uncheck Concentration".
 - **Golem skill level and Golem Mastery:** your levels while summoning, including +skills and Battle Command.
 - **Golem item** (folded, Iron Golem only): base weapon and runeword. Picking a runeword fills in its best rolls; you can change every value. Two-handed weapons give no weapon damage.
 - **Golem synergies** (folded): your hard skill points in the other golems. Only Fire Golem (+6% damage) and Clay Golem (+20 AR) change the damage.
 - The line under the golem shows its damage per hit, attack speed, hit chance and, for the Clay Golem, its slow.
-- **Rogue: Cold Arrow** is a reference value you can type in. It is on by default whenever the merc is a Rogue, because Cold Arrow is her default attack. Uncheck it to see the Necromancer's army only.
+## 4 · Mercenary
 
-## 4 · Revives
+- **Merc and variant:** Rogue (cold or fire), Desert Mercenary with any of his six auras, Iron Wolf (fire, cold or lightning), Act 5 Barbarian with one sword, or dual wielding. Changing the merc loads a typical weapon for him.
+- **Merc level:** his level, at most yours. Stats, skill levels and the Act 2 merc's own aura level follow it.
+- **Merc weapon** (folded): runeword and base. Picking a runeword fills in its best rolls; change the numbers to your own item. The base list only shows what that merc can wield, with damage and weapon speed.
+- **Second sword** (dual wield only): the second weapon and the switch "each hit uses both swords". Off is the cautious reading (swords take turns, as for players).
+- **Other gear and skills** (folded): IAS from helm and armor, +skills, Strength and Dexterity from gear, elemental damage from all gear (for example a Vampire Gaze helm's cold), attack rating %, Deadly Strike, Faster Cast Rate for the Iron Wolf, and which attack to count: the AI mix or one attack alone.
+- **The merc's line and table** show his stats, skill levels, every attack with its share, frames, damage per hit, hit chance and DPS. Uncheck "Count the merc's own damage" to see the Necromancer's army only.
+- **Attack speed and breakpoints** (folded): the IAS calculation step by step and the full breakpoint table for your merc: the IAS needed for each frame count, for every weapon speed he can use. Your weapon's column and your current frame count are marked. For the Iron Wolf it shows the Faster Cast Rate table.
+
+The merc's auras (section 2) and your auras both count: the merc stands in your Concentration, Might, Fanaticism and Heart of Wolverine like any minion. His damage meets the same resistances: Amplify Damage helps his physical part, Conviction his elemental part, and a cold-immune monster ignores Cold Arrow's cold.
+
+## 5 · Revives
 
 Pick one melee and one ranged monster and how many of each you revive. Each revive uses that monster's own Hell stats; your auras and Amplify Damage boost it like any other minion. If you enter more revives than your Revive level allows during play, all groups are cut down proportionally.
 
 The swing and shot rates are assumptions; the defaults are typical values. Whether Fanaticism's attack speed applies to revives is not confirmed, so it is a separate switch and off by default.
 
-## 5 · Enemy pack
+## 6 · Enemy pack
 
 Choose the monsters you fight. The army's damage is spread over the pack by count, and each monster's defense and resistances count separately: cold-immune Flesh Archers take nothing from the mages' cold missiles, for example.
 
@@ -92,7 +103,7 @@ Diablo is a fixed second target with his Hell values, so you can always compare 
 ## Reading the result
 
 - **vs. pack** is the damage per second your army deals to the whole enemy pack, **vs. Diablo** the same against Diablo.
-- The table below splits the total into skeleton warriors, skeletal mages, Iron Golem, revives, Thorns and, if switched on, the Rogue's arrows.
+- The table below splits the total into skeleton warriors, skeletal mages, Iron Golem, revives, Thorns and, if switched on, the merc.
 - **Per minion values** shows the details for one skeleton (damage bonus, damage per hit, attack rating, chance to hit, attack frames) and one mage (missile damage per element).
 
 ## How attack rating, defense and attack speed change the damage

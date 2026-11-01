@@ -4,6 +4,7 @@ import { calculate } from '../src/core/calc.ts';
 import { findFit } from '../src/core/fit.ts';
 import { applyVariant, DEFAULT_STATE, decodeState, encodeState, type State } from '../src/core/state.ts';
 import * as F from '../src/core/formulas.ts';
+import { attackFrames, elemBand, frameSteps, iasForEias, mercActions } from '../src/core/merc.ts';
 
 // Reference model: one "model monster" (no resists), as in the original DPS spreadsheet.
 const modelPack: Partial<State> = { enMelee: 'std', enMeleeN: 1, enRanged: '', enRangedN: 0, revMelee: 'std', revMeleeN: 0, revRanged: '', revRangedN: 0 };
@@ -13,7 +14,7 @@ const near = (actual: number, expected: number, tol = 0.02) =>
 
 // The reference spreadsheet used flat golem values and no Battle Command bonus while summoning, so these
 // checks compare the army without the golem and Rogue arrows at the spreadsheet's skill levels (doc total minus its golem value).
-const docLevels = (sum: number, rsm: number): Partial<State> => ({ rsS: sum, smS: sum, rsmS: rsm, golemType: 'none', rogueOn: false, revFana: false });
+const docLevels = (sum: number, rsm: number): Partial<State> => ({ rsS: sum, smS: sum, rsmS: rsm, golemType: 'none', mercOn: false, revFana: false });
 
 test('presets reproduce the reference model totals (without golem)', () => {
   // The spreadsheet used character level 84 for every row (presets now default to 88), so it is pinned here.
@@ -35,7 +36,7 @@ test('presets summon one level higher than they play (Battle Command)', () => {
 });
 
 test('every preset keeps the default character level 88', () => {
-  for (const id of ['low-budget', 'rogue-company', 'desert-storm', 'max-auras']) assert.equal(variant(id).clvl, DEFAULT_STATE.clvl, id);
+  for (const id of ['low-budget', 'rogue-company', 'desert-storm', 'max-auras', 'twin-blades']) assert.equal(variant(id).clvl, DEFAULT_STATE.clvl, id);
   assert.equal(DEFAULT_STATE.clvl, 88);
 });
 
@@ -91,7 +92,7 @@ test('gear swap removes surplus minions', () => {
 test('feasibility check resolves variants to their real gear', () => {
   const fit = (id: string) => findFit(variant(id));
   assert.deepEqual(fit('low-budget'), { merc: 'rogue', necro: [], merc_items: ['Mist', 'Bramble', 'Inner Sight'], golem: 'Mania' });
-  assert.equal(fit('desert-storm')?.merc, 'act2');
+  assert.equal(fit('desert-storm')?.merc, 'a2');
   assert.equal(findFit(variant('low-budget', {}, true))?.golem, 'Beast');
   assert.equal(findFit(variant('rogue-company'))?.golem, 'Mania');
   assert.equal(fit('max-auras')?.necro[0], 'Last Wish');
@@ -121,4 +122,74 @@ test('enemy hit chance follows attack rating against minion defense', () => {
 
 test('default setup is the Low budget preset', () => {
   assert.deepEqual(applyVariant(DEFAULT_STATE, 'low-budget'), DEFAULT_STATE);
+});
+
+// ---- Mercenary ----
+// Reference: the author's level 88 Rogue (character screen and skill tooltips): Str 142, Dex 215, Inner Sight 31,
+// Cold Arrow 34 (69% physical → cold, AR +307%, cold 235–248), Freezing Arrow 14 (cold 872–915), Mist on a Matriarchal Bow (93–227).
+test('Rogue stats and skills match the in-game screen', () => {
+  const m = calculate({ ...DEFAULT_STATE }).mercRes;
+  assert.equal(m.str, 142); assert.equal(m.dex, 215);
+  const lv = Object.fromEntries(m.skillLevels.map(x => [x.skill, x.lvl]));
+  assert.equal(lv['Inner Sight'], 31); assert.equal(lv['Cold Arrow'], 34); assert.equal(lv['Freezing Arrow'], 14);
+  assert.deepEqual(elemBand('Cold Arrow', 34), [235, 248]);
+  const ca = m.attacks.find(a => a.id === 'Cold Arrow')!;
+  assert.equal(ca.conv, 69);
+  const fa = m.attacks.find(a => a.id === 'Freezing Arrow')!;
+  near(fa.cold - DEFAULT_STATE.mCold, (872 + 915) / 2, 0.002);   // Cold Arrow synergy: base level 28 × 12%
+  // Weapon: Mist 365% on Matriarchal Bow (20–47) = 93–227 (+9 max), plus the merc's base damage 40–42.
+  assert.deepEqual([m.weapon!.min, m.weapon!.max], [93 + 40, 227 + 42]);
+});
+
+test('Rogue damage on screen is reproduced within 5%', () => {
+  // Screen 667–1367 with Concentration 9 and the golem's Fanaticism 1, without Heart of Wolverine.
+  const m = calculate({ ...DEFAULT_STATE, howOn: false }).mercRes;
+  const normal = m.attacks.find(a => a.id === 'normal')!;
+  near(normal.phys, (667 + 1367) / 2, 0.05);
+});
+
+test('attack frames follow the Basin Wiki merc tables', () => {
+  // Desert merc normal attack (16 frames/direction): 15 frames at 0 EIAS, 9 frames from EIAS 61.
+  assert.equal(attackFrames(16, 0), 15); assert.equal(attackFrames(16, 60), 10); assert.equal(attackFrames(16, 61), 9);
+  // Jab is a 14-frame sequence: 14 at 0, 12 from EIAS 17, 8 from EIAS 75.
+  assert.equal(attackFrames(14, 0, true), 14); assert.equal(attackFrames(14, 16, true), 13); assert.equal(attackFrames(14, 17, true), 12); assert.equal(attackFrames(14, 75, true), 8);
+  // Rogue bow (15): 14 at 0, 9 from 50, 8 from 67.
+  assert.equal(attackFrames(15, 0), 14); assert.equal(attackFrames(15, 50), 9); assert.equal(attackFrames(15, 67), 8);
+  // The author's Rogue: 20% IAS on a Matriarchal Bow (WSM −10), no Fanaticism → EIAS 27 → 11 frames.
+  assert.equal(attackFrames(15, 27), 11);
+  assert.deepEqual(frameSteps(15).filter(x => x.eias >= 0).map(x => x.eias), [0, 8, 16, 25, 37, 50, 67]);
+  assert.equal(iasForEias(30), 40); assert.equal(iasForEias(75), 200);
+});
+
+test('merc AI mix follows the hireling table chances', () => {
+  const a2 = mercActions({ type: 'a2', sub: 'might', lvl: 88 } as never);
+  assert.deepEqual(a2.map(a => [a.id, a.weight]), [['normal', 30], ['Jab', 149]]);   // 136 + 13 × 4 / 4
+  const dual = mercActions({ type: 'a5dual', sub: 'frenzy', lvl: 88 } as never);
+  assert.deepEqual(dual.map(a => a.id), ['normal', 'Frenzy', 'Taunt']);              // Iron Skin is passive
+});
+
+test('merc damage respects resistances and immunities', () => {
+  // Cold Arrow only: Flesh Archers are cold immune, so a pack of them takes far less than Doom Knights.
+  const only = { ...DEFAULT_STATE, mMode: 'Cold Arrow', enMeleeN: 0, enRangedN: 3 };
+  const archers = calculate(only).mercRes.dpsPack;
+  const knights = calculate({ ...only, enMeleeN: 3, enRangedN: 0 }).mercRes.dpsPack;
+  assert.ok(archers < knights * 0.6, `${archers} vs ${knights}`);
+  // Amplify Damage only helps the physical part.
+  const amp = calculate({ ...DEFAULT_STATE }).mercRes.dpsDiablo, noAmp = calculate({ ...DEFAULT_STATE, ampOn: false }).mercRes.dpsDiablo;
+  assert.ok(amp > noAmp);
+});
+
+test('merc DPS counts in the total and every merc type computes', () => {
+  const on = calculate({ ...DEFAULT_STATE }), off = calculate({ ...DEFAULT_STATE, mercOn: false });
+  near(on.totalPack - off.totalPack, on.mercRes.dpsPack, 0.001);
+  for (const id of ['low-budget', 'rogue-company', 'desert-storm', 'max-auras', 'twin-blades']) {
+    const r = calculate(variant(id));
+    assert.ok(r.mercRes.dpsPack > 0 && Number.isFinite(r.totalPack), id);
+    assert.ok(findFit(variant(id)), `${id} gear fits`);
+  }
+  assert.equal(findFit(variant('desert-storm'))?.merc, 'a2');
+  assert.equal(findFit(variant('twin-blades'))?.merc, 'a5dual');
+  // Dual wield: summing both swords per hit doubles roughly the weapon part.
+  const tw = variant('twin-blades');
+  assert.ok(calculate({ ...tw, mDualSum: true }).mercRes.dpsPack > calculate(tw).mercRes.dpsPack * 1.5);
 });

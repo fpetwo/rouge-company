@@ -1,8 +1,7 @@
 // Browser entry: hydrates the pre-rendered calculator. No framework, ~small bundle.
-import { applyVariant, BUILD_VARIANTS, decodeState, DEFAULT_STATE, encodeState, golemItemPatch, matchVariant, type State } from '../core/state.ts';
-import { renderRegions } from './view.ts';
-import { calculate } from '../core/calc.ts';
-const calcMerc = (s: State) => calculate(s).merc;
+import { applyVariant, BUILD_VARIANTS, decodeState, DEFAULT_STATE, encodeState, golemItemPatch, matchVariant, mercItemPatch, mercTypePatch, type State } from '../core/state.ts';
+import { mercOptions, renderRegions } from './view.ts';
+import type { MercType } from '../core/merc.ts';
 
 const root = document.getElementById('calculator');
 if (root) init(root);
@@ -24,7 +23,16 @@ function init(root: HTMLElement) {
     return s;
   };
 
+  // Merc selects whose options depend on the merc type: rebuild them before values are written.
+  const refreshOptions = (s: State) => {
+    const html = mercOptions(s);
+    for (const [k, v] of Object.entries(html)) {
+      const el = root.querySelector<HTMLSelectElement>(`#f-${k}`);
+      if (el && el.dataset.opts !== v) { el.innerHTML = v; el.dataset.opts = v; }
+    }
+  };
   const write = (s: State) => {
+    refreshOptions(s);
     for (const el of inputs) {
       const v = s[el.dataset.key as keyof State];
       if (el instanceof HTMLInputElement && el.type === 'checkbox') el.checked = Boolean(v);
@@ -38,11 +46,11 @@ function init(root: HTMLElement) {
       if (el) el.disabled = !s[`${k}On`];
     }
     const dis = (id: string, off: boolean) => { const el = root.querySelector<HTMLInputElement>(`#f-${id}`); if (el) el.disabled = off; };
-    dis('rogueS', !s.rogueOn); dis('rogueD', !s.rogueOn);
     dis('golemLvl', s.golemType === 'none'); dis('gmLvl', s.golemType === 'none');
     for (const k of ['gRw', 'gBase', 'gEd', 'gIas', 'gDs', 'gAr', 'gElem']) dis(k, s.golemType !== 'iron');
-    const rogueRow = root.querySelector<HTMLElement>('#rogue-row');
-    if (rogueRow) rogueRow.hidden = calcMerc(s) !== 'rogue';
+    const hide = (id: string, off: boolean) => { const el = root.querySelector<HTMLElement>(`#${id}`); if (el) el.hidden = off; };
+    hide('d-merc-weapon2', s.mType !== 'a5dual');
+    hide('l-mFcr', s.mType !== 'a3');
     dis('revMeleeN', !s.revMelee); dis('revRangedN', !s.revRanged);
     dis('enMeleeN', !s.enMelee); dis('enRangedN', !s.enRanged);
   };
@@ -81,7 +89,7 @@ function init(root: HTMLElement) {
     const hint = root.querySelector<HTMLElement>('#beast-hint');
     if (hint) hint.textContent = s.golemType !== 'iron'
       ? 'Needs the Iron Golem: Beast and Mania are items the golem wears. Pick Iron Golem in section 3 or load a preset.'
-      : 'Iron Golem wears Beast (Fanaticism 9) instead of Mania. Not for Max Auras.';
+      : 'Iron Golem wears Beast (Fanaticism 9) instead of Mania. Not for Max Auras or Twin Blades.';
     if (!beast) return;
     const supported = Boolean(BUILD_VARIANTS.find(x => x.id === activeId)?.beast);
     if (m && supported) beastPref = m.beast;
@@ -94,14 +102,20 @@ function init(root: HTMLElement) {
     if (!key) return;
     // A runeword choice fills in its best rolls and a fitting base.
     if (key === 'gRw') { const cur = read(); write({ ...cur, ...golemItemPatch(cur.gRw, cur.gBase) }); }
+    // Merc type: that merc's default weapon and gear. Runewords fill in their best rolls.
+    if (key === 'mType') { const cur = read(); write({ ...cur, ...mercTypePatch(cur.mType as MercType) }); }
+    if (key === 'mRw') { const cur = read(); write({ ...cur, ...mercItemPatch(cur, cur.mRw, 1) }); }
+    if (key === 'mRw2') { const cur = read(); write({ ...cur, ...mercItemPatch(cur, cur.mRw2, 2) }); }
+    if (key === 'mSub') { const cur = read(); write({ ...cur, mMode: 'ai' }); }
     update();
   });
   // One-click fixes offered by the gear check (rendered inside a region, so delegate).
   root.addEventListener('click', e => {
-    const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-fix-golem],[data-fix-off]');
+    const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-fix-golem],[data-fix-off],[data-fix-merc]');
     if (!b) return;
     const cur = read();
-    if (b.dataset.fixGolem) write({ ...cur, golemType: 'iron', ...golemItemPatch(b.dataset.fixGolem, cur.gBase) });
+    if (b.dataset.fixMerc) write({ ...cur, ...mercItemPatch(cur, b.dataset.fixMerc, 1) });
+    else if (b.dataset.fixGolem) write({ ...cur, golemType: 'iron', ...golemItemPatch(b.dataset.fixGolem, cur.gBase) });
     else if (b.dataset.fixOff) write({ ...cur, [`${b.dataset.fixOff}On`]: false } as State);
     update();
   });

@@ -22,11 +22,12 @@ Needs Node 22+ and the packages in `package.json` (`npm install`).
 |---|---|
 | `site.config.ts` | Site URL, name, optional public contact, data version |
 | `content/**/*.md` | All pages (front matter: title, description, nav, menu, order, faq, script, wide) |
-| `src/core/` | Damage model: monster data, formulas, presets (`state.ts`), gear-fit check |
+| `src/core/` | Damage model: monster data, formulas, merc model (`merc.ts`), presets (`state.ts`), gear-fit check |
 | `src/client/` | Calculator UI, item-table filters, styles |
 | `src/build/` | Static site generator and generated tables |
 | `data/game-data.json` | Item bases, uniques and sets, extracted from the game tables |
 | `scripts/extract_game_data.py` | Re-creates `data/game-data.json` after a game patch |
+| `scripts/gen_merc_data.py` | Re-creates `src/core/merc-data.ts` (merc stats, weapon bases, skills) from d2data |
 | `public/` | Favicon, social image, `_headers` (security headers, CSP) |
 
 ## Updating item data after a patch
@@ -34,6 +35,7 @@ Needs Node 22+ and the packages in `package.json` (`npm install`).
 ```
 git clone --depth 1 https://github.com/blizzhackers/d2data /tmp/d2data   # MIT licensed JSON export of the game tables
 python3 scripts/extract_game_data.py /tmp/d2data/json
+python3 scripts/gen_merc_data.py /tmp/d2data/json
 npm run build
 ```
 

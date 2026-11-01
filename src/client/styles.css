@@ -198,3 +198,14 @@ select:disabled{opacity:.35}
 .rogue-row{margin-top:12px}
 .rogue-row td{width:96px}
 .fit.warn-note{border-color:var(--warn);color:var(--ink);font-size:13px}
+
+/* merc section and breakpoint tables */
+table.merc-t td.l,table.merc-t th.l{text-align:left;white-space:normal;font-family:inherit}
+table.bp td.col,table.bp th.col{background:var(--accent-soft)}
+table.bp tr.on th,table.bp tr.on td,table.bp td.on{color:var(--accent-ink);font-weight:700}
+table.bp tr.on{outline:1px solid var(--accent)}
+.bp-h{font-size:13.5px;margin:14px 0 4px;font-weight:600}
+.calc-steps{margin:8px 0 0;padding-left:20px;font-size:13px}
+.calc-steps li{margin:2px 0}
+.calc-steps b{font-family:var(--mono)}
+[hidden]{display:none !important}

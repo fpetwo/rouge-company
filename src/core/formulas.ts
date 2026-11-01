@@ -9,7 +9,8 @@ const curve = (l: number, a: number, b: number, cap: number): number =>
   Math.min(a + Math.floor((b * Math.floor((110 * l) / (l + 6))) / 100), cap);
 
 export const fanaSpeed = (l: number): number => (l <= 0 ? 0 : curve(l, 10, 30, 40));
-export const fanaDamage = (l: number): number => (l <= 0 ? 0 : Math.floor((33 + 17 * l) / 2)); // allied value
+export const fanaDamage = (l: number): number => (l <= 0 ? 0 : Math.floor((33 + 17 * l) / 2)); // allied value (ln56 / 2)
+export const fanaSelfDamage = (l: number): number => (l <= 0 ? 0 : 33 + 17 * l);              // the carrier's own value (ln56)
 export const fanaAr = (l: number): number => (l <= 0 ? 0 : 35 + 5 * l);
 export const conDamage = (l: number): number => (l <= 0 ? 0 : 45 + 15 * l);
 export const mightDamage = (l: number): number => (l <= 0 ? 0 : 30 + 10 * l);

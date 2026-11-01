@@ -11,6 +11,6 @@ export const site = {
   // Optional public contact (e.g. a pseudonymous e-mail or a GitHub issues link). Leave empty for none.
   contact: '',
   // Date of the last content/data review, used for "last updated" and sitemap lastmod.
-  updated: '2026-10-25',
+  updated: '2026-11-01',
   dataVersion: 'Reign of the Warlock, patch 3.3'
 } as const;

@@ -1,7 +1,7 @@
 ---
 title: How the D2R Summoner DPS Calculator Works
 order: 3
-description: Every formula behind the D2R summoner DPS calculator – skeleton damage, chance to hit, Fanaticism attack speed, mage missiles, revives, Thorns and Amplify Damage.
+description: Every formula behind the D2R summoner DPS calculator – skeletons, hit chance, attack speed breakpoints, merc damage, revives and Thorns.
 nav: How it works
 breadcrumb: How it works
 h1: How the calculator works
@@ -9,7 +9,7 @@ h1: How the calculator works
 
 # How the calculator works
 
-<p class="lead">The calculator turns your skills, auras and gear into one number: damage per second of the whole army. This page lists every step, so you can check the results or adjust the assumptions.</p>
+<p class="lead">The calculator turns your skills, auras and gear into one number: damage per second of the whole army, merc included. This page lists every step, so you can check the results or adjust the assumptions.</p>
 
 ## Army size
 
@@ -80,10 +80,39 @@ Golem damage is calculated from the game data (monstats.txt, skills.txt) and the
 - **Not counted:** Crushing Blow and Open Wounds (Beast), damage against demons (Pride), the Fire Golem's Holy Fire burst, and the Iron Golem's own Thorns, which only protects himself and is replaced by a Thorns aura.
 - Only the Iron Golem can wear an item, so only he gives the gear check a golem aura slot.
 
-The Rogue's own arrows still use a flat reference value (3,700 against the pack, 2,100 against Diablo with maximum gear).
+## Mercenary
+
+The merc is calculated from the game tables like the rest of the army, for every merc: Rogue (Act 1), Desert Mercenary (Act 2), Iron Wolf (Act 3) and the Act 5 Barbarian with one sword or dual wielding.
+
+- **Stats by level** (hireling.txt, Hell rows): Strength, Dexterity and base damage grow by the table value / 8 per level above the hiring level, attack rating by the full value. A level 88 Rogue has 142 Strength and 215 Dexterity, exactly what the character screen shows.
+- **Skill levels:** table level + ⌊levels above hiring level × LvlPerLvl / 32⌋, plus +skills from gear. Synergies use the base level without +skills. The Rogue's Freezing Arrow at level 14 deals 872–915 cold, the same as her tooltip.
+- **Weapon damage:** base weapon damage × (1 + enhanced damage) plus +min/+max. Two-handed weapons add the merc's own base damage. The Act 2 merc and the Act 5 merc with one one-handed sword deal double weapon damage (Basin Wiki). Flat "Damage +" (Grief) is added once.
+- **Percent damage:** Strength (swords, polearms, spears) or Dexterity (bows) as % damage, plus the party auras (Concentration, Might, Fanaticism, Heart of Wolverine) and the skill's own bonus (Jab, Bash, Frenzy). Fanaticism counts at its full value when the merc carries the Fanaticism item himself, half otherwise. The Act 5 merc has 5% critical strike; critical strike and Deadly Strike double the physical part.
+- **Elemental damage:** gear adds (Mist's cold, Pride's lightning, a Vampire Gaze helm) and skill damage by level. Cold Arrow and Fire Arrow convert 3 + 2 × (level − 1) % of the physical damage to their element (missiles.txt), 69% at level 34.
+- **Resistances:** physical damage is multiplied by the physical resist factor (Amplify Damage removes 100), each element by its own resist factor (Conviction lowers it, only a fifth against immunes). Cold Arrow's converted part therefore does nothing to a cold-immune Flesh Archer.
+- **Attack rating:** table AR + AR per level × levels + 5 × Dexterity, then the skill's attack bonus, Fanaticism, Heart of Wolverine and gear AR %. Hit chance uses the merc's level. Spells always hit.
+- **Which attack:** the merc AI rolls between his normal attack and his skills with the chances in hireling.txt (game code as reimplemented by D2MOO). A level 88 Act 2 merc uses Jab 83% of the time, a cold Rogue fires Freezing Arrow 42%, Cold Arrow 25%, normal arrows 29% and casts Inner Sight 4%. Inner Sight, Battle Cry, Taunt, Enchant and Static Field take an action but deal no damage here. You can switch to a single attack in the merc section.
+- **Speed:** frames per attack from the attack speed formula below, plus 1 frame: mercs have an AI delay of 1 frame (monstats.txt), skeletons and golems 15.
+- **Not counted:** Crushing Blow, Open Wounds, splash (Freezing Arrow, Exploding Arrow, Fire Ball) and pierce, Static Field. Charged Bolt counts a third of its bolts as hits.
+- **Dual wield (Act 5):** in the game tables his Frenzy is a normal attack (one swing). By the player rule the two swords take turns, so a hit counts the average of both; the option "each hit uses both swords" adds them up instead. Which one the D2R merc does is not documented.
+
+## Attack speed and breakpoints
+
+Frames per attack = ⌈256 × animation length / ⌊256 × (100 + EIAS) / 100⌋⌉ − 1, where EIAS = ⌊120 × IAS / (120 + IAS)⌋ − weapon speed + skill speed (Fanaticism, Frenzy), capped at 75. Jab is a sequence and has no − 1. Only the primary weapon's and the armor's IAS count; with two swords the weapon speed is the average of both.
+
+| Merc | Animation | Length | Frames at 0 EIAS | Fastest (EIAS 75) |
+|---|---|---|---|---|
+| Rogue | bow attack, arrow skills | 15 | 14 | 8 |
+| Act 2 | normal attack | 16 | 15 | 9 |
+| Act 2 | Jab (2 hits) | 14, sequence | 14 | 8 |
+| Act 5 | attack, Bash, Stun, Frenzy | 16 | 15 | 9 |
+| Act 3 | casting (Faster Cast Rate) | – | 17 | 10 at 138% FCR |
+
+The animation lengths reproduce the Basin Wiki merc breakpoint tables exactly. The calculator shows the full table for your merc, with the IAS needed for each frame count by weapon speed.
 
 ## Sources
 
+- Merc stats, skills and weapons: hireling.txt, skills.txt, missiles.txt, weapons.txt and monseq.txt from the D2R game tables ([blizzhackers/d2data](https://github.com/blizzhackers/d2data)); hireling formulas from [D2MOO](https://github.com/ThePhrozenKeep/D2MOO); merc tables and weapon doubling from the Basin Wiki merc pages.
 - Skill formulas: [Basin Wiki](https://www.theamazonbasin.com/wiki/) pages for each skill (Concentration, Might, Fanaticism, Conviction, Thorns, Inner Sight, Heart of Wolverine, Raise Skeletal Mage, Iron Golem).
 - Monster stats: [Diablo Wiki](https://diablo2.diablowiki.net/) monster pages, Hell difficulty at native level (data from Lord of Destruction 1.11). D2R changes after that version and higher area levels are not included.
 - Patch notes: [Blizzard news](https://news.blizzard.com/en-us/diablo2) for patch 3.3 and Reign of the Warlock.

@@ -94,7 +94,7 @@ The merc is calculated from the game tables like the rest of the army, for every
 - **Which attack:** the merc AI rolls between his normal attack and his skills with the chances in hireling.txt (game code as reimplemented by D2MOO). A level 88 Act 2 merc uses Jab 83% of the time, a cold Rogue fires Freezing Arrow 42%, Cold Arrow 25%, normal arrows 29% and casts Inner Sight 4%. Inner Sight, Battle Cry, Taunt, Enchant and Static Field take an action but deal no damage here. You can switch to a single attack in the merc section.
 - **Speed:** frames per attack from the attack speed formula below, plus 1 frame: mercs have an AI delay of 1 frame (monstats.txt), skeletons and golems 15.
 - **Not counted:** Crushing Blow, Open Wounds, splash (Freezing Arrow, Exploding Arrow, Fire Ball) and pierce, Static Field. Charged Bolt counts a third of its bolts as hits.
-- **Dual wield (Act 5):** in the game tables his Frenzy is a normal attack (one swing). By the player rule the two swords take turns, so a hit counts the average of both; the option "each hit uses both swords" adds them up instead. Which one the D2R merc does is not documented.
+- **Dual wield (Act 5):** in the game tables his Frenzy is a normal attack (one swing). By the player rule the two swords take turns, so a hit counts the average of both; the option "each hit uses both swords" adds them up instead. Which one the D2R merc does is not documented. Two swords with the same aura (Last Wish + Last Wish) are counted as one aura at double level, Might 34, like same-aura items on players and the Rogue; this is also unconfirmed for the merc.
 
 ## Attack speed and breakpoints
 

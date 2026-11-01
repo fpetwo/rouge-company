@@ -35,7 +35,7 @@ export const AURAS: AuraInfo[] = [
     key: 'might', name: 'Might', summary: '+% physical damage for all allies in range',
     sources: [
       { name: 'Last Wish', base: 'sword / axe / hammer', min: 17, max: 17, carriers: { N: '1H', A3: true, A5: true, G: true }, slot: 'weapon' },
-      { name: 'Last Wish ×2', base: 'two swords on the dual-wield Act 5 merc (levels add up)', min: 34, max: 34, carriers: { A5: true }, slot: 'weapon' },
+      { name: 'Last Wish ×2', base: 'two swords on the dual-wield Act 5 merc – unconfirmed that the levels add up', min: 34, max: 34, carriers: { A5: true }, slot: 'weapon' },
       { name: 'Act 2 Offensive merc', base: 'own aura, rises with +skills on merc gear', min: 1, max: 40, pick: 19, carriers: { A2: true }, slot: 'own' }
     ]
   },

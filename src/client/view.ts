@@ -225,7 +225,9 @@ function mercSummary(s: State, r: Result): string {
   }).join('');
   const immune = r.pack.filter(t => m.attacks.some(a => a.hits && ((a.cold > a.phys && t.monster.res[2] >= 100) || (a.fire > a.phys && t.monster.res[1] >= 100) || (a.ltng > a.phys && t.monster.res[3] >= 100))));
   const warn = immune.length ? `<p class="note warn">${esc(immune.map(t => t.monster.name).join(', '))}: immune to the merc's main element, only his other damage counts against them.</p>` : '';
-  return head + `<div class="scroll"><table class="num small merc-t"><thead><tr><th scope="col">Attack</th><th scope="col">Share</th><th scope="col">Frames</th><th scope="col" class="l">Damage per hit</th><th scope="col">Hits pack / Diablo</th><th scope="col">DPS pack</th><th scope="col">Diablo</th></tr></thead><tbody>${rows}</tbody></table></div>` +
+  const twice = s.mType === 'a5dual' && s.mRw === s.mRw2 && MERC_ITEMS[s.mRw]?.auraKey;
+  const stackNote = twice ? `<p class="note warn">Unconfirmed: two ${esc(MERC_ITEMS[s.mRw].name)} swords are counted as one aura at double level (${esc(MERC_ITEMS[s.mRw].name)} ×2), the way same-aura items stack on players and the Rogue. Nobody has confirmed this for the Act 5 merc yet.</p>` : '';
+  return head + stackNote + `<div class="scroll"><table class="num small merc-t"><thead><tr><th scope="col">Attack</th><th scope="col">Share</th><th scope="col">Frames</th><th scope="col" class="l">Damage per hit</th><th scope="col">Hits pack / Diablo</th><th scope="col">DPS pack</th><th scope="col">Diablo</th></tr></thead><tbody>${rows}</tbody></table></div>` +
     warn + `<p class="note">${esc(T.note)}</p>`;
 }
 const mercBaseBonus = (s: State) => (s.mType === 'rogue' ? 'dex' : 'str');

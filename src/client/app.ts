@@ -1,5 +1,5 @@
 // Browser entry: hydrates the pre-rendered calculator. No framework, ~small bundle.
-import { applyVariant, BUILD_VARIANTS, decodeState, DEFAULT_STATE, encodeState, golemItemPatch, matchVariant, mercItemPatch, mercTypePatch, type State } from '../core/state.ts';
+import { applyVariant, BUILD_VARIANTS, decodeState, DEFAULT_STATE, encodeState, golemItemPatch, matchVariant, mercItemPatch, mercTypePatch, syncMercAuras, type State } from '../core/state.ts';
 import { mercOptions, renderRegions } from './view.ts';
 import type { MercType } from '../core/merc.ts';
 
@@ -63,8 +63,10 @@ function init(root: HTMLElement) {
     else history.replaceState(null, '', q ? `#${q}` : location.pathname);
   };
   let urlTimer = 0;
+  let lastMerc: Pick<State, 'mType' | 'mRw' | 'mRw2'> = { mType: DEFAULT_STATE.mType, mRw: DEFAULT_STATE.mRw, mRw2: DEFAULT_STATE.mRw2 };
   const update = () => {
     const s = read();
+    lastMerc = { mType: s.mType, mRw: s.mRw, mRw2: s.mRw2 };
     const html = renderRegions(s);
     for (const [id, el] of regions) if (html[id] !== undefined && el.innerHTML !== html[id]) el.innerHTML = html[id];
     syncDisabled(s);
@@ -103,9 +105,13 @@ function init(root: HTMLElement) {
     // A runeword choice fills in its best rolls and a fitting base.
     if (key === 'gRw') { const cur = read(); write({ ...cur, ...golemItemPatch(cur.gRw, cur.gBase) }); }
     // Merc type: that merc's default weapon and gear. Runewords fill in their best rolls.
-    if (key === 'mType') { const cur = read(); write({ ...cur, ...mercTypePatch(cur.mType as MercType) }); }
-    if (key === 'mRw') { const cur = read(); write({ ...cur, ...mercItemPatch(cur, cur.mRw, 1) }); }
-    if (key === 'mRw2') { const cur = read(); write({ ...cur, ...mercItemPatch(cur, cur.mRw2, 2) }); }
+    // The auras of the merc's weapons follow his gear (two Last Wish swords = Might 34).
+    if (key === 'mType' || key === 'mRw' || key === 'mRw2') {
+      const cur = read();
+      const prev = { ...cur, mType: lastMerc.mType, mRw: lastMerc.mRw, mRw2: lastMerc.mRw2 };
+      const patch = key === 'mType' ? mercTypePatch(cur.mType as MercType) : mercItemPatch(cur, key === 'mRw' ? cur.mRw : cur.mRw2, key === 'mRw' ? 1 : 2);
+      write(syncMercAuras(prev, { ...cur, ...patch }));
+    }
     if (key === 'mSub') { const cur = read(); write({ ...cur, mMode: 'ai' }); }
     update();
   });
@@ -114,7 +120,7 @@ function init(root: HTMLElement) {
     const b = (e.target as HTMLElement).closest<HTMLButtonElement>('[data-fix-golem],[data-fix-off],[data-fix-merc]');
     if (!b) return;
     const cur = read();
-    if (b.dataset.fixMerc) write({ ...cur, ...mercItemPatch(cur, b.dataset.fixMerc, 1) });
+    if (b.dataset.fixMerc) write(syncMercAuras(cur, { ...cur, ...mercItemPatch(cur, b.dataset.fixMerc, 1) }));
     else if (b.dataset.fixGolem) write({ ...cur, golemType: 'iron', ...golemItemPatch(b.dataset.fixGolem, cur.gBase) });
     else if (b.dataset.fixOff) write({ ...cur, [`${b.dataset.fixOff}On`]: false } as State);
     update();

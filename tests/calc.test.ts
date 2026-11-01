@@ -2,7 +2,7 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { calculate } from '../src/core/calc.ts';
 import { findFit } from '../src/core/fit.ts';
-import { applyVariant, DEFAULT_STATE, decodeState, encodeState, type State } from '../src/core/state.ts';
+import { applyVariant, DEFAULT_STATE, decodeState, encodeState, mercItemPatch, syncMercAuras, type State } from '../src/core/state.ts';
 import * as F from '../src/core/formulas.ts';
 import { attackFrames, elemBand, frameSteps, iasForEias, mercActions } from '../src/core/merc.ts';
 
@@ -192,4 +192,15 @@ test('merc DPS counts in the total and every merc type computes', () => {
   // Dual wield: summing both swords per hit doubles roughly the weapon part.
   const tw = variant('twin-blades');
   assert.ok(calculate({ ...tw, mDualSum: true }).mercRes.dpsPack > calculate(tw).mercRes.dpsPack * 1.5);
+});
+
+test('two Last Wish swords on the dual-wield merc give Might 34', () => {
+  const tw = variant('twin-blades');
+  const both = syncMercAuras(tw, { ...tw, ...mercItemPatch(tw, 'lastwish', 2) });
+  assert.equal(both.mightOn, true); assert.equal(both.mightL, 34);
+  assert.ok(findFit(both));
+  assert.ok(calculate(both).totalPack > calculate(tw).totalPack);
+  // Back to Grief in the second hand: Might drops to 17 again.
+  const back = syncMercAuras(both, { ...both, ...mercItemPatch(both, 'grief', 2) });
+  assert.equal(back.mightL, 17);
 });

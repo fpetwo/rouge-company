@@ -57,6 +57,27 @@ export function mercItemPatch(s: State, rw: string, slot: 1 | 2): Partial<State>
 }
 export { mercBase };
 
+/** Aura levels the merc's weapon(s) give at their best roll; the same aura on both swords adds up (Last Wish + Last Wish = Might 34). */
+const MERC_AURA: Record<string, [AuraKey, number]> = { mist: ['con', 12], faith: ['fana', 15], pride: ['con', 20], infinity: ['conv', 12], lastwish: ['might', 17], mania: ['fana', 1], edge: ['thorns', 15] };
+export function mercAuraLevels(s: Pick<State, 'mType' | 'mRw' | 'mRw2'>): Partial<Record<AuraKey, number>> {
+  const out: Partial<Record<AuraKey, number>> = {};
+  for (const rw of [s.mRw, s.mType === 'a5dual' ? s.mRw2 : '']) {
+    const a = MERC_AURA[rw];
+    if (a) out[a[0]] = (out[a[0]] ?? 0) + a[1];
+  }
+  return out;
+}
+/** After the merc's weapons change: switch on the auras they give at their level, and drop the ones the old weapons gave. */
+export function syncMercAuras(prev: State, next: State): State {
+  const before = mercAuraLevels(prev), after = mercAuraLevels(next);
+  const s: State = { ...next };
+  for (const [k, lv] of Object.entries(before) as [AuraKey, number][]) {
+    if (after[k] === undefined && s[`${k}L`] === lv) (s as any)[`${k}On`] = false;
+  }
+  for (const [k, lv] of Object.entries(after) as [AuraKey, number][]) { (s as any)[`${k}On`] = true; (s as any)[`${k}L`] = lv; }
+  return s;
+}
+
 // Default = a real level 88 character without Call to Arms (summoning level = level during play):
 // Mist (Concentration 9, 365% ED, Matriarchal Bow) with Vampire Gaze (adds 6–22 cold) and Bramble (Thorns 15) on a level 88 Rogue, Inner Sight 31, Mania on a Berserker Axe in the
 // Iron Golem, Wisp Projector (Heart of Wolverine 5), Amplify Damage, Revive 24.
